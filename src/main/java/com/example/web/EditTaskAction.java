@@ -4,11 +4,11 @@ import com.example.domain.Task;
 import com.example.domain.TaskNotFoundException;
 import com.example.domain.TaskRepository;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,14 +27,14 @@ public class EditTaskAction implements Serializable {
      */
     private static final long serialVersionUID = 1L;
 
-    //@Inject
+    // @Inject
     private static final Logger LOGGER = Logger.getLogger(EditTaskAction.class.getName());
-    
+
     @Inject
     FacesContext facesContext;
 
     @Inject
-    private TaskRepository taskRepository;
+    transient private TaskRepository taskRepository;
 
     private Long taskId;
 
@@ -62,8 +62,7 @@ public class EditTaskAction implements Serializable {
         if (taskId == null) {
             task = new Task();
         } else {
-            task= taskRepository.findOptionalById(taskId)
-                    .orElseThrow(()-> new TaskNotFoundException(taskId));
+            task = taskRepository.findOptionalById(taskId).orElseThrow(() -> new TaskNotFoundException(taskId));
         }
 
     }
@@ -75,7 +74,7 @@ public class EditTaskAction implements Serializable {
         } else {
             this.task = taskRepository.update(task);
         }
-        FacesMessage info = new FacesMessage( "Task is saved successfully!");
+        FacesMessage info = new FacesMessage("Task is saved successfully!");
         facesContext.addMessage(null, info);
 
         return "/tasks.xhtml?faces-redirect=true";

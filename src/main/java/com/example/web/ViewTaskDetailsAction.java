@@ -4,14 +4,14 @@ import com.example.domain.Task;
 import com.example.domain.TaskNotFoundException;
 import com.example.domain.TaskRepository;
 
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.validation.constraints.NotNull;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.context.FacesContext;
+import jakarta.faces.context.FacesContext;
 
 /**
  *
@@ -27,7 +27,7 @@ public class ViewTaskDetailsAction implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(ViewTaskDetailsAction.class.getName());
 
     @Inject
-    private TaskRepository taskRepository;
+    transient private TaskRepository taskRepository;
 
     @NotNull
     private Long taskId;
@@ -38,8 +38,7 @@ public class ViewTaskDetailsAction implements Serializable {
 
         LOGGER.log(Level.INFO, "get task details of id @{0}", taskId);
 
-        task = taskRepository.findOptionalById(taskId)
-                .orElseThrow(() -> new TaskNotFoundException(taskId));
+        task = taskRepository.findOptionalById(taskId).orElseThrow(() -> new TaskNotFoundException(taskId));
 
     }
 

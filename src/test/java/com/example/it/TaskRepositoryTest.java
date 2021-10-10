@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,10 +25,9 @@ public class TaskRepositoryTest {
 
     @Deployment()
     public static JavaArchive createDeployment() {
-        JavaArchive jar = ShrinkWrap.create(JavaArchive.class)
-                .addPackage(Task.class.getPackage())
-                //Add JPA persistence configuration.
-                //WARN: In a jar archive, persistence.xml should be put into /META-INF
+        JavaArchive jar = ShrinkWrap.create(JavaArchive.class).addPackage(Task.class.getPackage())
+                // Add JPA persistence configuration.
+                // WARN: In a jar archive, persistence.xml should be put into /META-INF
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml");
 
         LOGGER.log(Level.INFO, "deployment unit: {0}", jar);

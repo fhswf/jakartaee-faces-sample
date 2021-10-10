@@ -2,18 +2,20 @@ package com.example.domain;
 
 import java.util.List;
 import java.util.Optional;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import jakarta.ejb.Stateless;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceUnit;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 
 /**
  *
  * @author hantsy
  */
+@PersistenceUnit
 @Stateless
 public class TaskRepository {
 
@@ -35,13 +37,13 @@ public class TaskRepository {
     }
 
     public List<Task> findByStatus(Task.Status status) {
-        CriteriaBuilder cb = this.em.getCriteriaBuilder();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
 
         CriteriaQuery<Task> q = cb.createQuery(Task.class);
         Root<Task> c = q.from(Task.class);
-        
+
         if (null != status) {
-            q.where(cb.equal(c.get(Task_.status), status));
+            q.where(cb.equal(c.get("status"), status));
         }
 
         TypedQuery<Task> query = em.createQuery(q);
